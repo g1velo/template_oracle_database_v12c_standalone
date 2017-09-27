@@ -1,0 +1,1 @@
+# template_oracle_database_v12c_standalone
