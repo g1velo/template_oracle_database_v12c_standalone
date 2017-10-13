@@ -1,5 +1,5 @@
 {
-    "name": "Oracle Enterprise Database Deployment on a Single VM - VMware vSphere",
+    "name": "Oracle Enterprise Database Deployment V12c on a single virtual machine - VMware vSphere",
     "description": "This template deploys Oracle Enterprise Database V12c with a raw database on a Linux virtual machine.",
     "version": "1.0",
     "imageUrl": "",
@@ -23,7 +23,7 @@
       }
     },
     "metadata": {
-      "displayName": "Oracle Enterprise Database Deployment on a Single VM",
+      "displayName": "Oracle Enterprise Database Deployment V12c on a single virtual machine",
       "providerDisplayName": "VMware vSphere",
       "longDescription": "This template deploys Oracle Enterprise Database V12c with a raw database on a Linux virtual machine.",
       "bullets": [{
@@ -34,10 +34,10 @@
     "description": "1.0<br>"},
 {
     "title": "Operating Systems Supported",
-    "description": "Red Hat Enterprise Linux 7<br>Red Hat Enterprise Linux 6<br>"},
+    "description": "Red Hat Enterprise Linux 7<br>"},
 {
     "title": "Topology",
-    "description": "1 virtual machine:<br>  Oracle DB<br>    odb instance 1, 1 database<br>"},
+    "description": "1 virtual machine:<br>  Oracle DB Instance<br>"},
 {
     "title": "Software Deployed",
     "description": "Oracle Enterprise Database V12c<br>"},
@@ -46,7 +46,7 @@
     "description": " vCPU = 4, Memory = 8GB, Storage = 25GB<br>"},
 {
     "title": "Usage and Special Notes",
-    "description": "1. The user is responsible for obtaining appropriate software licenses and downloads prior to template deployment.<br>2. Detailed system requirements for Oracle Database V12c - https://docs.oracle.com/en/database<br>"}
+    "description": "1. The user is responsible for obtaining appropriate software licenses and downloads prior to template deployment.<br>2. Detailed system requirements for Oracle Database V12c - <a href=\"https://docs.oracle.com/en/database\" target=\"_blank\">https://docs.oracle.com/en/database</a><br>"}
 ],
       "featuredImageUrl": "",
       "imageUrl": "",

@@ -9,12 +9,12 @@
 # This is a terraform generated template generated from oracle_database_v12c_standalone
 
 ##############################################################
-# Keys - CAMC (public/private) & optional User Key (public)
+# Keys - CAMC (public/private) & optional User Key (public) 
 ##############################################################
 variable "user_public_ssh_key" {
-  type        = "string"
+  type = "string"
   description = "User defined public SSH key used to connect to the virtual machine. The format must be in openSSH."
-  default     = "None"
+  default = "None"
 }
 
 variable "ibm_pm_public_ssh_key" {
@@ -27,11 +27,11 @@ variable "ibm_pm_private_ssh_key" {
 
 variable "allow_unverified_ssl" {
   description = "Communication with vsphere server with self signed certificate"
-  default     = "true"
+  default = "true"
 }
 
 ##############################################################
-# Define the vsphere provider
+# Define the vsphere provider 
 ##############################################################
 provider "vsphere" {
   allow_unverified_ssl = "${var.allow_unverified_ssl}"
@@ -42,7 +42,7 @@ resource "random_id" "stack_id" {
 }
 
 ##############################################################
-# Define pattern variables
+# Define pattern variables 
 ##############################################################
 ##### unique stack name #####
 variable "ibm_stack_name" {
@@ -54,100 +54,107 @@ variable "ibm_stack_name" {
 ##### Environment variables #####
 #Variable : ibm_pm_access_token
 variable "ibm_pm_access_token" {
-  type        = "string"
+  type = "string"
   description = "IBM Pattern Manager Access Token"
 }
 
 #Variable : ibm_pm_service
 variable "ibm_pm_service" {
-  type        = "string"
+  type = "string"
   description = "IBM Pattern Manager Service"
 }
 
 #Variable : ibm_sw_repo
 variable "ibm_sw_repo" {
-  type        = "string"
+  type = "string"
   description = "IBM Software Repo Root (https://<hostname>:<port>)"
 }
 
 #Variable : ibm_sw_repo_password
 variable "ibm_sw_repo_password" {
-  type        = "string"
+  type = "string"
   description = "IBM Software Repo Password"
 }
 
 #Variable : ibm_sw_repo_user
 variable "ibm_sw_repo_user" {
-  type        = "string"
+  type = "string"
   description = "IBM Software Repo Username"
-  default     = "repouser"
+  default = "repouser"
 }
+
 
 ##### OracleDBNode01 variables #####
 #Variable : OracleDBNode01-image
 variable "OracleDBNode01-image" {
-  type        = "string"
+  type = "string"
   description = "Operating system image id / template that should be used when creating the virtual image"
 }
 
 #Variable : OracleDBNode01-name
 variable "OracleDBNode01-name" {
-  type        = "string"
+  type = "string"
   description = "Short hostname of virtual machine"
 }
 
 #Variable : OracleDBNode01-os_admin_user
 variable "OracleDBNode01-os_admin_user" {
-  type        = "string"
+  type = "string"
   description = "Name of the admin user account in the virtual machine that will be accessed via SSH"
 }
 
 #Variable : OracleDBNode01_oracledb_SID
 variable "OracleDBNode01_oracledb_SID" {
-  type        = "string"
+  type = "string"
   description = "Name to identify a specific instance of a running Oracle database"
-  default     = "ORCL"
+  default = "ORCL"
 }
 
 #Variable : OracleDBNode01_oracledb_port
 variable "OracleDBNode01_oracledb_port" {
-  type        = "string"
+  type = "string"
   description = "Listening port to be configured in Oracle"
-  default     = "1521"
+  default = "1521"
 }
 
 #Variable : OracleDBNode01_oracledb_release_patchset
 variable "OracleDBNode01_oracledb_release_patchset" {
-  type        = "string"
+  type = "string"
   description = "Identifier of patch set to apply to Oracle for improvement and bug fix"
-  default     = "12.1.0.2.0"
+  default = "12.1.0.2.0"
 }
 
 #Variable : OracleDBNode01_oracledb_security_sys_pw
 variable "OracleDBNode01_oracledb_security_sys_pw" {
-  type        = "string"
+  type = "string"
   description = "Change the password for SYS user"
 }
 
 #Variable : OracleDBNode01_oracledb_security_system_pw
 variable "OracleDBNode01_oracledb_security_system_pw" {
-  type        = "string"
+  type = "string"
   description = "Change the password for SYSTEM user"
 }
 
 #Variable : OracleDBNode01_oracledb_version
 variable "OracleDBNode01_oracledb_version" {
-  type        = "string"
+  type = "string"
   description = "Version of Oracle DB to be installed"
-  default     = "v12c"
+  default = "v12c"
 }
+
 
 #########################################################
 ##### Resource : OracleDBNode01
 #########################################################
 
+variable "OracleDBNode01_domain" {
+  type = "string"
+  description = "Domain Name of virtual machine"
+}
+
 variable "OracleDBNode01-os_password" {
-  type        = "string"
+  type = "string"
   description = "Operating System Password for the Operating System User to access virtual machine"
 }
 
@@ -161,12 +168,12 @@ variable "OracleDBNode01_datacenter" {
 
 variable "OracleDBNode01_number_of_vcpu" {
   description = "Number of virtual CPU for the virtual machine, which is required to be a positive Integer"
-  default     = "2"
+  default = "2"
 }
 
 variable "OracleDBNode01_memory" {
   description = "Memory assigned to the virtual machine in megabytes. This value is required to be an increment of 1024"
-  default     = "2048"
+  default = "2048"
 }
 
 variable "OracleDBNode01_cluster" {
@@ -174,12 +181,12 @@ variable "OracleDBNode01_cluster" {
 }
 
 variable "OracleDBNode01_dns_suffixes" {
-  type        = "list"
+  type = "list"
   description = "Name resolution suffixes for the virtual network adapter"
 }
 
 variable "OracleDBNode01_dns_servers" {
-  type        = "list"
+  type = "list"
   description = "DNS servers for the virtual network adapter"
 }
 
@@ -204,60 +211,60 @@ variable "OracleDBNode01_root_disk_datastore" {
 }
 
 variable "OracleDBNode01_root_disk_type" {
-  type        = "string"
+  type = "string"
   description = "Type of template disk volume"
-  default     = "eager_zeroed"
+  default = "eager_zeroed"
 }
 
 variable "OracleDBNode01_root_disk_controller_type" {
-  type        = "string"
+  type = "string"
   description = "Type of template disk controller"
-  default     = "scsi"
+  default = "scsi"
 }
 
 variable "OracleDBNode01_root_disk_keep_on_remove" {
-  type        = "string"
+  type = "string"
   description = "Delete template disk volume when the virtual machine is deleted"
-  default     = "false"
+  default = "false"
 }
 
 # vsphere vm
 resource "vsphere_virtual_machine" "OracleDBNode01" {
-  name         = "${var.OracleDBNode01-name}"
-  folder       = "${var.OracleDBNode01_folder}"
-  datacenter   = "${var.OracleDBNode01_datacenter}"
-  vcpu         = "${var.OracleDBNode01_number_of_vcpu}"
-  memory       = "${var.OracleDBNode01_memory}"
-  cluster      = "${var.OracleDBNode01_cluster}"
+  name = "${var.OracleDBNode01-name}"
+  folder = "${var.OracleDBNode01_folder}"
+  datacenter = "${var.OracleDBNode01_datacenter}"
+  vcpu = "${var.OracleDBNode01_number_of_vcpu}"
+  memory = "${var.OracleDBNode01_memory}"
+  cluster = "${var.OracleDBNode01_cluster}"
   dns_suffixes = "${var.OracleDBNode01_dns_suffixes}"
-  dns_servers  = "${var.OracleDBNode01_dns_servers}"
+  dns_servers = "${var.OracleDBNode01_dns_servers}"
+  domain = "${var.OracleDBNode01_domain}"
 
   network_interface {
-    label              = "${var.OracleDBNode01_network_interface_label}"
-    ipv4_gateway       = "${var.OracleDBNode01_ipv4_gateway}"
-    ipv4_address       = "${var.OracleDBNode01_ipv4_address}"
+    label = "${var.OracleDBNode01_network_interface_label}"
+    ipv4_gateway = "${var.OracleDBNode01_ipv4_gateway}"
+    ipv4_address = "${var.OracleDBNode01_ipv4_address}"
     ipv4_prefix_length = "${var.OracleDBNode01_ipv4_prefix_length}"
   }
 
   disk {
-    type            = "${var.OracleDBNode01_root_disk_type}"
-    template        = "${var.OracleDBNode01-image}"
-    datastore       = "${var.OracleDBNode01_root_disk_datastore}"
-    keep_on_remove  = "${var.OracleDBNode01_root_disk_keep_on_remove}"
+    type = "${var.OracleDBNode01_root_disk_type}"
+    template = "${var.OracleDBNode01-image}"
+    datastore = "${var.OracleDBNode01_root_disk_datastore}"
+    keep_on_remove = "${var.OracleDBNode01_root_disk_keep_on_remove}"
     controller_type = "${var.OracleDBNode01_root_disk_controller_type}"
   }
 
   # Specify the connection
   connection {
-    type     = "ssh"
-    user     = "${var.OracleDBNode01-os_admin_user}"
+    type = "ssh"
+    user = "${var.OracleDBNode01-os_admin_user}"
     password = "${var.OracleDBNode01-os_password}"
   }
 
   provisioner "file" {
     destination = "OracleDBNode01_add_ssh_key.sh"
-
-    content = <<EOF
+    content     = <<EOF
 ##############################################################
 # Licensed Materials - Property of IBM
 #
@@ -321,9 +328,10 @@ EOF
   provisioner "remote-exec" {
     inline = [
       "sudo bash -c 'chmod +x OracleDBNode01_add_ssh_key.sh'",
-      "sudo bash -c './OracleDBNode01_add_ssh_key.sh  \"${var.OracleDBNode01-os_admin_user}\" \"${var.user_public_ssh_key}\" \"${var.ibm_pm_public_ssh_key}\">> OracleDBNode01_add_ssh_key.log 2>&1'",
+      "sudo bash -c './OracleDBNode01_add_ssh_key.sh  \"${var.OracleDBNode01-os_admin_user}\" \"${var.user_public_ssh_key}\" \"${var.ibm_pm_public_ssh_key}\">> OracleDBNode01_add_ssh_key.log 2>&1'"
     ]
   }
+
 }
 
 #########################################################
@@ -331,13 +339,12 @@ EOF
 #########################################################
 
 resource "camc_bootstrap" "OracleDBNode01_chef_bootstrap_comp" {
-  depends_on      = ["camc_vaultitem.VaultItem", "vsphere_virtual_machine.OracleDBNode01"]
-  name            = "OracleDBNode01_chef_bootstrap_comp"
-  camc_endpoint   = "${var.ibm_pm_service}/v1/bootstrap/chef"
-  access_token    = "${var.ibm_pm_access_token}"
+  depends_on = ["camc_vaultitem.VaultItem","vsphere_virtual_machine.OracleDBNode01"]
+  name = "OracleDBNode01_chef_bootstrap_comp"
+  camc_endpoint = "${var.ibm_pm_service}/v1/bootstrap/chef"
+  access_token = "${var.ibm_pm_access_token}"
   skip_ssl_verify = true
-  trace           = true
-
+  trace = true
   data = <<EOT
 {
   "os_admin_user": "${var.OracleDBNode01-os_admin_user}",
@@ -359,18 +366,18 @@ resource "camc_bootstrap" "OracleDBNode01_chef_bootstrap_comp" {
 EOT
 }
 
+
 #########################################################
 ##### Resource : OracleDBNode01_oracledb_create_database
 #########################################################
 
 resource "camc_softwaredeploy" "OracleDBNode01_oracledb_create_database" {
-  depends_on      = ["camc_softwaredeploy.OracleDBNode01_oracledb_v12c_install"]
-  name            = "OracleDBNode01_oracledb_create_database"
-  camc_endpoint   = "${var.ibm_pm_service}/v1/software_deployment/chef"
-  access_token    = "${var.ibm_pm_access_token}"
+  depends_on = ["camc_softwaredeploy.OracleDBNode01_oracledb_v12c_install"]
+  name = "OracleDBNode01_oracledb_create_database"
+  camc_endpoint = "${var.ibm_pm_service}/v1/software_deployment/chef"
+  access_token = "${var.ibm_pm_access_token}"
   skip_ssl_verify = true
-  trace           = true
-
+  trace = true
   data = <<EOT
 {
   "os_admin_user": "${var.OracleDBNode01-os_admin_user}",
@@ -403,18 +410,18 @@ resource "camc_softwaredeploy" "OracleDBNode01_oracledb_create_database" {
 EOT
 }
 
+
 #########################################################
 ##### Resource : OracleDBNode01_oracledb_v12c_install
 #########################################################
 
 resource "camc_softwaredeploy" "OracleDBNode01_oracledb_v12c_install" {
-  depends_on      = ["camc_bootstrap.OracleDBNode01_chef_bootstrap_comp"]
-  name            = "OracleDBNode01_oracledb_v12c_install"
-  camc_endpoint   = "${var.ibm_pm_service}/v1/software_deployment/chef"
-  access_token    = "${var.ibm_pm_access_token}"
+  depends_on = ["camc_bootstrap.OracleDBNode01_chef_bootstrap_comp"]
+  name = "OracleDBNode01_oracledb_v12c_install"
+  camc_endpoint = "${var.ibm_pm_service}/v1/software_deployment/chef"
+  access_token = "${var.ibm_pm_access_token}"
   skip_ssl_verify = true
-  trace           = true
-
+  trace = true
   data = <<EOT
 {
   "os_admin_user": "${var.OracleDBNode01-os_admin_user}",
@@ -452,16 +459,16 @@ resource "camc_softwaredeploy" "OracleDBNode01_oracledb_v12c_install" {
 EOT
 }
 
+
 #########################################################
 ##### Resource : VaultItem
 #########################################################
 
 resource "camc_vaultitem" "VaultItem" {
-  camc_endpoint   = "${var.ibm_pm_service}/v1/vault_item/chef"
-  access_token    = "${var.ibm_pm_access_token}"
+  camc_endpoint = "${var.ibm_pm_service}/v1/vault_item/chef"
+  access_token = "${var.ibm_pm_access_token}"
   skip_ssl_verify = true
-  trace           = true
-
+  trace = true
   data = <<EOT
 {
   "vault_content": {
@@ -488,3 +495,4 @@ output "OracleDBNode01_roles" {
 output "stack_id" {
   value = "${random_id.stack_id.hex}"
 }
+
