@@ -413,7 +413,7 @@
       "name": "OracleDBNode01_memory",
       "type": "string",
       "description": "Memory assigned to the virtual machine in megabytes. This value is required to be an increment of 1024",
-      "default": 2048,
+      "default": 8192,
       "hidden": false,
       "label": "Virtual Machine Memory - OracleDBNode01",
       "secured": false,

@@ -1,9 +1,9 @@
-# Template - Oracle Enterprise Database Deployment V12c on a single virtual machine
+# Template - Oracle Database 12c Enterprise Edition on a single virtual machine
 Template Version - 1.0
 
 ## Description
 
-This template deploys Oracle Enterprise Database V12c with a raw database on a Linux virtual machine.<br>
+This template deploys an instance of Oracle Database 12c Enterprise Edition on a Linux virtual machine.<br>
 
 ## Features
 
@@ -22,20 +22,20 @@ Red Hat Enterprise Linux 7<br>
 ### Topology
 
 1 virtual machine:<br>
-  Oracle DB Instance<br>
+  Oracle Database 12c instance<br>
 <br>
 ### Software Deployed
 
-Oracle Enterprise Database V12c<br>
+Oracle Database 12c Enterprise Edition<br>
 <br>
 ### Default Virtual Machine Settings
 
- vCPU = 4, Memory = 8GB, Storage = 25GB<br>
+ vCPU 2, Memory (GB) 8<br>
 <br>
 ### Usage and Special Notes
 
 1. The user is responsible for obtaining appropriate software licenses and downloads prior to template deployment.<br>
-2. Detailed system requirements for Oracle Database V12c - <a href=\"https://docs.oracle.com/en/database\" target=\"_blank\">https://docs.oracle.com/en/database</a><br>
+2. Detailed system requirements for Oracle Database 12c - <a href=\"https://docs.oracle.com/en/database\" target=\"_blank\">https://docs.oracle.com/en/database</a><br>
 <br>
 
 
