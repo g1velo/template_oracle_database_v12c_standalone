@@ -9,7 +9,7 @@ This template deploys Oracle Enterprise Database V12c with a raw database on a L
 
 ### Clouds
 
- VMware<br>
+ Amazon<br>
 <br>
 ### Template Version
 
@@ -30,7 +30,7 @@ Oracle Database 12c Enterprise Edition<br>
 <br>
 ### Default Virtual Machine Settings
 
- vCPU 2, Memory (GB) 8<br>
+ t2.large, vCPU 2, Mem (GiB) 8, EBS (GB) 25<br>
 <br>
 ### Usage and Special Notes
 
@@ -47,7 +47,7 @@ Copyright IBM Corp. 2016, 2017
 
 ### Target Cloud Type
 
-VMware vSphere
+Amazon EC2
 
 ### Software Deployed
 
@@ -242,20 +242,16 @@ The following is required prior to deploying the template on the target cloud. T
     <th>Terraform Provider Variable Description.</th>
   </tr>
   <tr>
-    <td>user</th>
-    <td>The user name for vSphere API operations.</th>
+    <td>access_key</td>
+    <td>The AWS API access key used to connect to Amazon EC2</td>
   </tr>
   <tr>
-    <td>password</code></td>
-    <td>The user password for vSphere API operations.</td>
+    <td>secret_key</code></td>
+    <td>The AWS Secret Key associated with the API User</td>
   </tr>
   <tr>
-    <td>vsphere_server</code></td>
-    <td>The vSphere Server name for vSphere API operations.</td>
-  </tr>
-  <tr>
-    <td>allow_unverified_ssl</code></td>
-    <td>Set True, VMware vSphere client will permit unverifiable SSL certificates.</td>
+    <td>region</code></td>
+    <td>The AWS region which you wish to connect to.</td>
   </tr>
 </table>
 
