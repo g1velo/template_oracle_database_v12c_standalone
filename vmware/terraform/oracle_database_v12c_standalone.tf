@@ -14,7 +14,6 @@
 variable "user_public_ssh_key" {
   type = "string"
   description = "User defined public SSH key used to connect to the virtual machine. The format must be in openSSH."
-  default = "None"
 }
 
 variable "ibm_pm_public_ssh_key" {
@@ -27,7 +26,6 @@ variable "ibm_pm_private_ssh_key" {
 
 variable "allow_unverified_ssl" {
   description = "Communication with vsphere server with self signed certificate"
-  default = "true"
 }
 
 ##############################################################
@@ -58,7 +56,6 @@ variable "ibm_stack_name" {
   description = "A unique stack name."
 }
 
-#### Default OS Admin User Map ####
 
 ##### Environment variables #####
 #Variable : ibm_pm_access_token
@@ -89,7 +86,6 @@ variable "ibm_sw_repo_password" {
 variable "ibm_sw_repo_user" {
   type = "string"
   description = "IBM Software Repo Username"
-  default = "repouser"
 }
 
 
@@ -116,21 +112,18 @@ variable "OracleDBNode01-os_admin_user" {
 variable "OracleDBNode01_oracledb_SID" {
   type = "string"
   description = "Name to identify a specific instance of a running Oracle database"
-  default = "ORCL"
 }
 
 #Variable : OracleDBNode01_oracledb_port
 variable "OracleDBNode01_oracledb_port" {
   type = "string"
   description = "Listening port to be configured in Oracle"
-  default = "1521"
 }
 
 #Variable : OracleDBNode01_oracledb_release_patchset
 variable "OracleDBNode01_oracledb_release_patchset" {
   type = "string"
   description = "Identifier of patch set to apply to Oracle for improvement and bug fix"
-  default = "12.1.0.2.0"
 }
 
 #Variable : OracleDBNode01_oracledb_security_sys_pw
@@ -149,9 +142,10 @@ variable "OracleDBNode01_oracledb_security_system_pw" {
 variable "OracleDBNode01_oracledb_version" {
   type = "string"
   description = "Version of Oracle DB to be installed"
-  default = "v12c"
 }
 
+
+##### virtualmachine variables #####
 
 #########################################################
 ##### Resource : OracleDBNode01
@@ -176,12 +170,10 @@ variable "OracleDBNode01_domain" {
 
 variable "OracleDBNode01_number_of_vcpu" {
   description = "Number of virtual CPU for the virtual machine, which is required to be a positive Integer"
-  default = "2"
 }
 
 variable "OracleDBNode01_memory" {
   description = "Memory assigned to the virtual machine in megabytes. This value is required to be an increment of 1024"
-  default = "2048"
 }
 
 variable "OracleDBNode01_cluster" {
@@ -216,7 +208,6 @@ variable "OracleDBNode01_ipv4_prefix_length" {
 
 variable "OracleDBNode01_adapter_type" {
   description = "Network adapter type for vNIC Configuration"
-  default = "vmxnet3"
 }
 
 variable "OracleDBNode01_root_disk_datastore" {
@@ -226,19 +217,16 @@ variable "OracleDBNode01_root_disk_datastore" {
 variable "OracleDBNode01_root_disk_type" {
   type = "string"
   description = "Type of template disk volume"
-  default = "eager_zeroed"
 }
 
 variable "OracleDBNode01_root_disk_controller_type" {
   type = "string"
   description = "Type of template disk controller"
-  default = "scsi"
 }
 
 variable "OracleDBNode01_root_disk_keep_on_remove" {
   type = "string"
   description = "Delete template disk volume when the virtual machine is deleted"
-  default = "false"
 }
 
 # vsphere vm

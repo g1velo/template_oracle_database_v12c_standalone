@@ -22,17 +22,14 @@ variable "ibm_pm_private_ssh_key" {
 variable "user_public_ssh_key" {
   type = "string"
   description = "User defined public SSH key used to connect to the virtual machine. The format must be in openSSH."
-  default = "None"
 }
 
 variable "aws_ami_owner_id" {
-  description = "The AMI Owner ID"
-  default = "309956199498"
+  description = "AWS AMI Owner ID"
 }
 
 variable "aws_region" {
-  description = "The aws region"
-  default = "us-east-1"
+  description = "AWS Region Name"
 }
 
 ##############################################################
@@ -45,6 +42,10 @@ provider "aws" {
 
 provider "camc" {
   version = "~> 0.1"
+}
+
+provider "template" {
+  version = "~> 1.0"
 }
 
 provider "random" {
@@ -60,7 +61,7 @@ data "aws_vpc" "selected_vpc" {
 
 #Parameter : aws_vpc_name
 variable "aws_vpc_name" {
-  description = "The name of the aws vpc"
+  description = "AWS VPC Name"
 }
 
 data "aws_security_group" "aws_sg_camc_name_selected" {
@@ -70,7 +71,7 @@ data "aws_security_group" "aws_sg_camc_name_selected" {
 
 #Parameter : aws_sg_camc_name
 variable "aws_sg_camc_name" {
-  description = "The name of the aws security group for automation content"
+  description = "AWS Security Group Name"
 }
 
 resource "random_id" "stack_id" {
@@ -85,15 +86,6 @@ variable "ibm_stack_name" {
   description = "A unique stack name."
 }
 
-#### Default OS Admin User Map ####
-variable "default_os_admin_user" {
-  type        = "map"
-  description = "look up os_admin_user using resource image"
-  default = {
-    ubuntu_images_ubuntu_xenial-16.04_099720109477 = "ubuntu"
-    RHEL-7.4_HVM_GA_309956199498                   = "ec2-user"
-  }
-}
 
 ##### Environment variables #####
 #Variable : ibm_pm_access_token
@@ -124,18 +116,10 @@ variable "ibm_sw_repo_password" {
 variable "ibm_sw_repo_user" {
   type = "string"
   description = "IBM Software Repo Username"
-  default = "repouser"
 }
 
 
 ##### OracleDBNode01 variables #####
-#Variable : OracleDBNode01-flavor
-variable "OracleDBNode01-flavor" {
-  type = "string"
-  description = "OracleDBNode01 Flavor"
-  default = "t2.small"
-}
-
 data "aws_ami" "OracleDBNode01_ami" {
   most_recent = true
   filter {
@@ -149,14 +133,6 @@ data "aws_ami" "OracleDBNode01_ami" {
 variable "OracleDBNode01-image" {
   type = "string"
   description = "Operating system image id / template that should be used when creating the virtual image"
-  default = "RHEL-7.4_HVM_GA"
-}
-
-#Variable : OracleDBNode01-mgmt-network-public
-variable "OracleDBNode01-mgmt-network-public" {
-  type = "string"
-  description = "Expose and use public IP of virtual machine for internal communication"
-  default = "true"
 }
 
 #Variable : OracleDBNode01-name
@@ -175,21 +151,18 @@ variable "OracleDBNode01-os_admin_user" {
 variable "OracleDBNode01_oracledb_SID" {
   type = "string"
   description = "Name to identify a specific instance of a running Oracle database"
-  default = "ORCL"
 }
 
 #Variable : OracleDBNode01_oracledb_port
 variable "OracleDBNode01_oracledb_port" {
   type = "string"
   description = "Listening port to be configured in Oracle"
-  default = "1521"
 }
 
 #Variable : OracleDBNode01_oracledb_release_patchset
 variable "OracleDBNode01_oracledb_release_patchset" {
   type = "string"
   description = "Identifier of patch set to apply to Oracle for improvement and bug fix"
-  default = "12.1.0.2.0"
 }
 
 #Variable : OracleDBNode01_oracledb_security_sys_pw
@@ -208,13 +181,25 @@ variable "OracleDBNode01_oracledb_security_system_pw" {
 variable "OracleDBNode01_oracledb_version" {
   type = "string"
   description = "Version of Oracle DB to be installed"
-  default = "v12c"
+}
+
+
+##### virtualmachine variables #####
+#Variable : OracleDBNode01-flavor
+variable "OracleDBNode01-flavor" {
+  type = "string"
+  description = "OracleDBNode01 Flavor"
+}
+
+#Variable : OracleDBNode01-mgmt-network-public
+variable "OracleDBNode01-mgmt-network-public" {
+  type = "string"
+  description = "Expose and use public IP of virtual machine for internal communication"
 }
 
 ##### domain name #####
 variable "runtime_domain" {
   description = "domain name"
-  default = "cam.ibm.com"
 }
 
 
@@ -240,8 +225,7 @@ variable "OracleDBNode01_subnet_name" {
 #Parameter : OracleDBNode01_associate_public_ip_address
 variable "OracleDBNode01_associate_public_ip_address" {
   type = "string"
-  description = "Assign a public IP"
-  default = "true"
+  description = "AWS assign a public IP to instance"
 }
 
 
@@ -249,7 +233,6 @@ variable "OracleDBNode01_associate_public_ip_address" {
 variable "OracleDBNode01_root_block_device_volume_type" {
   type = "string"
   description = "AWS Root Block Device Volume Type"
-  default = "gp2"
 }
 
 
@@ -257,7 +240,6 @@ variable "OracleDBNode01_root_block_device_volume_type" {
 variable "OracleDBNode01_root_block_device_volume_size" {
   type = "string"
   description = "AWS Root Block Device Volume Size"
-  default = "25"
 }
 
 
@@ -265,7 +247,6 @@ variable "OracleDBNode01_root_block_device_volume_size" {
 variable "OracleDBNode01_root_block_device_delete_on_termination" {
   type = "string"
   description = "AWS Root Block Device Delete on Termination"
-  default = "true"
 }
 
 resource "aws_instance" "OracleDBNode01" {
@@ -281,7 +262,7 @@ resource "aws_instance" "OracleDBNode01" {
 
   # Specify the ssh connection
   connection {
-    user = "${var.OracleDBNode01-os_admin_user == "" ? lookup(var.default_os_admin_user, format("%s_%s", replace(var.OracleDBNode01-image, "/", "_"), var.aws_ami_owner_id)) : var.OracleDBNode01-os_admin_user}"
+    user = "${var.OracleDBNode01-os_admin_user}"
     private_key = "${base64decode(var.ibm_pm_private_ssh_key)}"
   }
 
@@ -351,7 +332,7 @@ data "template_cloudinit_config" "OracleDBNode01_init"  {
   part {
     content_type = "text/cloud-config"
     content = <<EOF
-hostname: ${var.OracleDBNode01-name}
+hostname: ${var.OracleDBNode01-name}.${var.runtime_domain}
 fqdn: ${var.OracleDBNode01-name}.${var.runtime_domain}
 manage_etc_hosts: false
 EOF
@@ -371,7 +352,7 @@ resource "camc_bootstrap" "OracleDBNode01_chef_bootstrap_comp" {
   trace = true
   data = <<EOT
 {
-  "os_admin_user": "${var.OracleDBNode01-os_admin_user == "default"? lookup(var.default_os_admin_user, format("%s_%s", replace(var.OracleDBNode01-image, "/", "_"), var.aws_ami_owner_id)) : var.OracleDBNode01-os_admin_user}",
+  "os_admin_user": "${var.OracleDBNode01-os_admin_user}",
   "stack_id": "${random_id.stack_id.hex}",
   "environment_name": "_default",
   "host_ip": "${var.OracleDBNode01-mgmt-network-public == "false" ? aws_instance.OracleDBNode01.private_ip : aws_instance.OracleDBNode01.public_ip}",
@@ -404,7 +385,7 @@ resource "camc_softwaredeploy" "OracleDBNode01_oracledb_create_database" {
   trace = true
   data = <<EOT
 {
-  "os_admin_user": "${var.OracleDBNode01-os_admin_user == "default"? lookup(var.default_os_admin_user, format("%s_%s", replace(var.OracleDBNode01-image, "/", "_"), var.aws_ami_owner_id)) : var.OracleDBNode01-os_admin_user}",
+  "os_admin_user": "${var.OracleDBNode01-os_admin_user}",
   "stack_id": "${random_id.stack_id.hex}",
   "environment_name": "_default",
   "host_ip": "${var.OracleDBNode01-mgmt-network-public == "false" ? aws_instance.OracleDBNode01.private_ip : aws_instance.OracleDBNode01.public_ip}",
@@ -448,7 +429,7 @@ resource "camc_softwaredeploy" "OracleDBNode01_oracledb_v12c_install" {
   trace = true
   data = <<EOT
 {
-  "os_admin_user": "${var.OracleDBNode01-os_admin_user == "default"? lookup(var.default_os_admin_user, format("%s_%s", replace(var.OracleDBNode01-image, "/", "_"), var.aws_ami_owner_id)) : var.OracleDBNode01-os_admin_user}",
+  "os_admin_user": "${var.OracleDBNode01-os_admin_user}",
   "stack_id": "${random_id.stack_id.hex}",
   "environment_name": "_default",
   "host_ip": "${var.OracleDBNode01-mgmt-network-public == "false" ? aws_instance.OracleDBNode01.private_ip : aws_instance.OracleDBNode01.public_ip}",

@@ -12,10 +12,6 @@
       "label": "Cloud Input Variables"
     },
     {
-      "name": "virtualmachine",
-      "label": "Virtual Machine Input Variables"
-    },
-    {
       "name": "ssh_keys",
       "label": "SSH Keys"
     },
@@ -28,8 +24,8 @@
       "label": "OracleDBNode01"
     },
     {
-      "name": "ungrouped",
-      "label": "ungrouped"
+      "name": "virtualmachine",
+      "label": "Virtual Machine Input Variables"
     }
   ],
   "output_groups": [
@@ -131,8 +127,7 @@
       ],
       "required": true,
       "immutable": false,
-      "immutable_after_create": true,
-      "group_name": "oracledbnode01"
+      "group_name": "cloud"
     },
     {
       "name": "OracleDBNode01_datacenter",
@@ -271,8 +266,7 @@
       ],
       "required": true,
       "immutable": false,
-      "immutable_after_create": true,
-      "group_name": "oracledbnode01"
+      "group_name": "cloud"
     },
     {
       "name": "OracleDBNode01_dedicated_acct_host_only",
@@ -295,8 +289,7 @@
       ],
       "required": true,
       "immutable": false,
-      "immutable_after_create": true,
-      "group_name": "oracledbnode01"
+      "group_name": "cloud"
     },
     {
       "name": "OracleDBNode01_hourly_billing",
@@ -319,8 +312,7 @@
       ],
       "required": true,
       "immutable": false,
-      "immutable_after_create": true,
-      "group_name": "oracledbnode01"
+      "group_name": "cloud"
     },
     {
       "name": "OracleDBNode01_network_speed",
@@ -343,8 +335,7 @@
       ],
       "required": true,
       "immutable": false,
-      "immutable_after_create": true,
-      "group_name": "oracledbnode01"
+      "group_name": "cloud"
     },
     {
       "name": "OracleDBNode01_private_network_only",
@@ -367,14 +358,13 @@
       ],
       "required": true,
       "immutable": false,
-      "immutable_after_create": true,
-      "group_name": "oracledbnode01"
+      "group_name": "cloud"
     },
     {
       "name": "OracleDBNode01_memory",
       "type": "string",
       "description": "Amount of Memory (MBs), which is required to be one or more times of 1024",
-      "default": 4096,
+      "default": 8192,
       "hidden": false,
       "label": "IBMCloud VSI Memory - OracleDBNode01",
       "secured": false,
@@ -411,8 +401,7 @@
       ],
       "required": true,
       "immutable": false,
-      "immutable_after_create": true,
-      "group_name": "oracledbnode01"
+      "group_name": "cloud"
     },
     {
       "name": "OracleDBNode01_number_of_cores",
@@ -455,8 +444,7 @@
       ],
       "required": true,
       "immutable": false,
-      "immutable_after_create": true,
-      "group_name": "oracledbnode01"
+      "group_name": "cloud"
     },
     {
       "name": "OracleDBNode01-image",
@@ -544,18 +532,17 @@
       "options": [
         {
           "value": "25",
-          "label": "25 GB",
-          "default": true
+          "label": "25 GB"
         },
         {
           "value": "100",
-          "label": "100 GB"
+          "label": "100 GB",
+          "default": true
         }
       ],
       "required": true,
       "immutable": false,
-      "immutable_after_create": true,
-      "group_name": "oracledbnode01"
+      "group_name": "cloud"
     },
     {
       "name": "OracleDBNode01_oracledb_security_sys_pw",
@@ -590,30 +577,8 @@
       "secured": false,
       "required": true,
       "immutable": false,
-      "group_name": "virtualmachine"
-    },
-    {
-      "name": "OracleDBNode01-mgmt-network-public",
-      "type": "string",
-      "description": "Expose and use public IP of virtual machine for internal communication",
-      "default": "true",
-      "hidden": false,
-      "label": "Use Public Management Network - OracleDBNode01",
-      "secured": false,
-      "options": [
-        {
-          "value": false,
-          "label": false
-        },
-        {
-          "value": true,
-          "label": true
-        }
-      ],
-      "required": true,
-      "immutable": false,
       "immutable_after_create": true,
-      "group_name": "oracledbnode01"
+      "group_name": "virtualmachine"
     },
     {
       "name": "ibm_pm_private_ssh_key",
@@ -640,6 +605,28 @@
       "default": "${advanced_content_runtime_chef.ibm_pm_public_ssh_key_name}"
     },
     {
+      "name": "OracleDBNode01-mgmt-network-public",
+      "type": "string",
+      "description": "Expose and use public IP of virtual machine for internal communication",
+      "default": "true",
+      "hidden": false,
+      "label": "Use Public Management Network",
+      "secured": false,
+      "options": [
+        {
+          "value": false,
+          "label": false
+        },
+        {
+          "value": true,
+          "label": true
+        }
+      ],
+      "required": true,
+      "immutable": false,
+      "group_name": "virtualmachine"
+    },
+    {
       "name": "user_public_ssh_key",
       "type": "string",
       "description": "User defined public SSH key used to connect to the virtual machine. The format must be in openSSH.",
@@ -649,6 +636,7 @@
       "secured": false,
       "required": true,
       "immutable": false,
+      "immutable_after_create": true,
       "group_name": "ssh_keys"
     },
     {

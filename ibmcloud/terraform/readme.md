@@ -30,7 +30,7 @@ Oracle Database 12c Enterprise Edition<br>
 <br>
 ### Default Virtual Machine Settings
 
- Cores 2, RAM (GB) 8, SAN Disk (GB) 25<br>
+ Cores 2, RAM (GB) 8, SAN Disk (GB) 100<br>
 <br>
 ### Usage and Special Notes
 

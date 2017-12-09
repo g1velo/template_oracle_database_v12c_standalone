@@ -22,7 +22,6 @@ variable "ibm_pm_private_ssh_key" {
 variable "user_public_ssh_key" {
   type = "string"
   description = "User defined public SSH key used to connect to the virtual machine. The format must be in openSSH."
-  default = "None"
 }
 
 ##############################################################
@@ -61,15 +60,6 @@ variable "ibm_stack_name" {
   description = "A unique stack name."
 }
 
-#### Default OS Admin User Map ####
-variable "default_os_admin_user" {
-  type        = "map"
-  description = "look up os_admin_user using resource image"
-  default = {
-    UBUNTU_16_64 = "root"
-    REDHAT_7_64 = "root"
-  }
-}
 
 ##### Environment variables #####
 #Variable : ibm_pm_access_token
@@ -100,7 +90,6 @@ variable "ibm_sw_repo_password" {
 variable "ibm_sw_repo_user" {
   type = "string"
   description = "IBM Software Repo Username"
-  default = "repouser"
 }
 
 
@@ -109,14 +98,6 @@ variable "ibm_sw_repo_user" {
 variable "OracleDBNode01-image" {
   type = "string"
   description = "Operating system image id / template that should be used when creating the virtual image"
-  default = "REDHAT_7_64"
-}
-
-#Variable : OracleDBNode01-mgmt-network-public
-variable "OracleDBNode01-mgmt-network-public" {
-  type = "string"
-  description = "Expose and use public IP of virtual machine for internal communication"
-  default = "true"
 }
 
 #Variable : OracleDBNode01-name
@@ -135,21 +116,18 @@ variable "OracleDBNode01-os_admin_user" {
 variable "OracleDBNode01_oracledb_SID" {
   type = "string"
   description = "Name to identify a specific instance of a running Oracle database"
-  default = "ORCL"
 }
 
 #Variable : OracleDBNode01_oracledb_port
 variable "OracleDBNode01_oracledb_port" {
   type = "string"
   description = "Listening port to be configured in Oracle"
-  default = "1521"
 }
 
 #Variable : OracleDBNode01_oracledb_release_patchset
 variable "OracleDBNode01_oracledb_release_patchset" {
   type = "string"
   description = "Identifier of patch set to apply to Oracle for improvement and bug fix"
-  default = "12.1.0.2.0"
 }
 
 #Variable : OracleDBNode01_oracledb_security_sys_pw
@@ -168,7 +146,14 @@ variable "OracleDBNode01_oracledb_security_system_pw" {
 variable "OracleDBNode01_oracledb_version" {
   type = "string"
   description = "Version of Oracle DB to be installed"
-  default = "v12c"
+}
+
+
+##### virtualmachine variables #####
+#Variable : OracleDBNode01-mgmt-network-public
+variable "OracleDBNode01-mgmt-network-public" {
+  type = "string"
+  description = "Expose and use public IP of virtual machine for internal communication"
 }
 
 
@@ -176,7 +161,6 @@ variable "OracleDBNode01_oracledb_version" {
 ##### domain name #####
 variable "runtime_domain" {
   description = "domain name"
-  default = "cam.ibm.com"
 }
 
 
@@ -189,7 +173,6 @@ variable "runtime_domain" {
 variable "OracleDBNode01_datacenter" {
   type = "string"
   description = "IBMCloud datacenter where infrastructure resources will be deployed"
-  default = "dal05"
 }
 
 
@@ -197,7 +180,6 @@ variable "OracleDBNode01_datacenter" {
 variable "OracleDBNode01_private_network_only" {
   type = "string"
   description = "Provision the virtual machine with only private IP"
-  default = "false"
 }
 
 
@@ -205,7 +187,6 @@ variable "OracleDBNode01_private_network_only" {
 variable "OracleDBNode01_number_of_cores" {
   type = "string"
   description = "Number of CPU cores, which is required to be a positive Integer"
-  default = "2"
 }
 
 
@@ -213,7 +194,6 @@ variable "OracleDBNode01_number_of_cores" {
 variable "OracleDBNode01_memory" {
   type = "string"
   description = "Amount of Memory (MBs), which is required to be one or more times of 1024"
-  default = "2048"
 }
 
 
@@ -221,7 +201,6 @@ variable "OracleDBNode01_memory" {
 variable "OracleDBNode01_network_speed" {
   type = "string"
   description = "Bandwidth of network communication applied to the virtual machine"
-  default = "10"
 }
 
 
@@ -229,7 +208,6 @@ variable "OracleDBNode01_network_speed" {
 variable "OracleDBNode01_hourly_billing" {
   type = "string"
   description = "Billing cycle: hourly billed or monthly billed"
-  default = "true"
 }
 
 
@@ -237,7 +215,6 @@ variable "OracleDBNode01_hourly_billing" {
 variable "OracleDBNode01_dedicated_acct_host_only" {
   type = "string"
   description = "Shared or dedicated host, where dedicated host usually means higher performance and cost"
-  default = "false"
 }
 
 
@@ -245,13 +222,11 @@ variable "OracleDBNode01_dedicated_acct_host_only" {
 variable "OracleDBNode01_local_disk" {
   type = "string"
   description = "User local disk or SAN disk"
-  default = "false"
 }
 
 variable "OracleDBNode01_root_disk_size" {
   type = "string"
   description = "Root Disk Size - OracleDBNode01"
-  default = "25"
 }
 
 resource "ibm_compute_vm_instance" "OracleDBNode01" {
@@ -270,7 +245,7 @@ resource "ibm_compute_vm_instance" "OracleDBNode01" {
   ssh_key_ids = ["${data.ibm_compute_ssh_key.ibm_pm_public_key.id}"]
   # Specify the ssh connection
   connection {
-    user = "${var.OracleDBNode01-os_admin_user == "" ? lookup(var.default_os_admin_user, var.OracleDBNode01-image) : var.OracleDBNode01-os_admin_user}"
+    user = "${var.OracleDBNode01-os_admin_user}"
     private_key = "${base64decode(var.ibm_pm_private_ssh_key)}"
   }
 
@@ -342,7 +317,7 @@ resource "camc_bootstrap" "OracleDBNode01_chef_bootstrap_comp" {
   trace = true
   data = <<EOT
 {
-  "os_admin_user": "${var.OracleDBNode01-os_admin_user == "default"? lookup(var.default_os_admin_user, var.OracleDBNode01-image) : var.OracleDBNode01-os_admin_user}",
+  "os_admin_user": "${var.OracleDBNode01-os_admin_user}",
   "stack_id": "${random_id.stack_id.hex}",
   "environment_name": "_default",
   "host_ip": "${var.OracleDBNode01-mgmt-network-public == "false" ? ibm_compute_vm_instance.OracleDBNode01.ipv4_address_private : ibm_compute_vm_instance.OracleDBNode01.ipv4_address}",
@@ -375,7 +350,7 @@ resource "camc_softwaredeploy" "OracleDBNode01_oracledb_create_database" {
   trace = true
   data = <<EOT
 {
-  "os_admin_user": "${var.OracleDBNode01-os_admin_user == "default"? lookup(var.default_os_admin_user, var.OracleDBNode01-image) : var.OracleDBNode01-os_admin_user}",
+  "os_admin_user": "${var.OracleDBNode01-os_admin_user}",
   "stack_id": "${random_id.stack_id.hex}",
   "environment_name": "_default",
   "host_ip": "${var.OracleDBNode01-mgmt-network-public == "false" ? ibm_compute_vm_instance.OracleDBNode01.ipv4_address_private : ibm_compute_vm_instance.OracleDBNode01.ipv4_address}",
@@ -419,7 +394,7 @@ resource "camc_softwaredeploy" "OracleDBNode01_oracledb_v12c_install" {
   trace = true
   data = <<EOT
 {
-  "os_admin_user": "${var.OracleDBNode01-os_admin_user == "default"? lookup(var.default_os_admin_user, var.OracleDBNode01-image) : var.OracleDBNode01-os_admin_user}",
+  "os_admin_user": "${var.OracleDBNode01-os_admin_user}",
   "stack_id": "${random_id.stack_id.hex}",
   "environment_name": "_default",
   "host_ip": "${var.OracleDBNode01-mgmt-network-public == "false" ? ibm_compute_vm_instance.OracleDBNode01.ipv4_address_private : ibm_compute_vm_instance.OracleDBNode01.ipv4_address}",

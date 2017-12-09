@@ -30,7 +30,7 @@ Oracle Database 12c Enterprise Edition<br>
 <br>
 ### Default Virtual Machine Settings
 
- t2.large, vCPU 2, Mem (GiB) 8, EBS (GB) 25<br>
+ t2.large, vCPU 2, Mem (GiB) 8, EBS (GB) 100<br>
 <br>
 ### Usage and Special Notes
 
