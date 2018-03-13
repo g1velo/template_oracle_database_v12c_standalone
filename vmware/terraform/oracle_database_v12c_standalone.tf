@@ -1,19 +1,32 @@
 # =================================================================
-# Licensed Materials - Property of IBM
-# 5737-E67
-# @ Copyright IBM Corporation 2016, 2017 All Rights Reserved
-# US Government Users Restricted Rights - Use, duplication or disclosure
-# restricted by GSA ADP Schedule Contract with IBM Corp.
+# Copyright 2017 IBM Corporation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+#	you may not use this file except in compliance with the License.
+#	You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+#	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 # =================================================================
 
 # This is a terraform generated template generated from oracle_database_v12c_standalone
 
 ##############################################################
-# Keys - CAMC (public/private) & optional User Key (public) 
+# Keys - CAMC (public/private) & optional User Key (public)
 ##############################################################
 variable "user_public_ssh_key" {
   type = "string"
   description = "User defined public SSH key used to connect to the virtual machine. The format must be in openSSH."
+  default = "None"
+}
+
+variable "ibm_stack_id" {
+  description = "A unique stack id."
 }
 
 variable "ibm_pm_public_ssh_key" {
@@ -26,36 +39,52 @@ variable "ibm_pm_private_ssh_key" {
 
 variable "allow_unverified_ssl" {
   description = "Communication with vsphere server with self signed certificate"
+  default = "true"
 }
 
 ##############################################################
-# Define the vsphere provider 
+# Define the vsphere provider
 ##############################################################
 provider "vsphere" {
   allow_unverified_ssl = "${var.allow_unverified_ssl}"
-  version = "~> 0.4"
+  version = "~> 1.2"
 }
 
 provider "camc" {
   version = "~> 0.1"
 }
 
-provider "random" {
-  version = "~> 1.0"
-}
-
-resource "random_id" "stack_id" {
-  byte_length = "16"
-}
-
 ##############################################################
-# Define pattern variables 
+# Define pattern variables
 ##############################################################
 ##### unique stack name #####
 variable "ibm_stack_name" {
   description = "A unique stack name."
 }
 
+##############################################################
+# Vsphere data for provider
+##############################################################
+data "vsphere_datacenter" "OracleDBNode01_datacenter" {
+  name = "${var.OracleDBNode01_datacenter}"
+}
+data "vsphere_datastore" "OracleDBNode01_datastore" {
+  name = "${var.OracleDBNode01_root_disk_datastore}"
+  datacenter_id = "${data.vsphere_datacenter.OracleDBNode01_datacenter.id}"
+}
+data "vsphere_resource_pool" "OracleDBNode01_resource_pool" {
+  name = "${var.OracleDBNode01_resource_pool}"
+  datacenter_id = "${data.vsphere_datacenter.OracleDBNode01_datacenter.id}"
+}
+data "vsphere_network" "OracleDBNode01_network" {
+  name = "${var.OracleDBNode01_network_interface_label}"
+  datacenter_id = "${data.vsphere_datacenter.OracleDBNode01_datacenter.id}"
+}
+
+data "vsphere_virtual_machine" "OracleDBNode01_template" {
+  name = "${var.OracleDBNode01-image}"
+  datacenter_id = "${data.vsphere_datacenter.OracleDBNode01_datacenter.id}"
+}
 
 ##### Environment variables #####
 #Variable : ibm_pm_access_token
@@ -86,6 +115,7 @@ variable "ibm_sw_repo_password" {
 variable "ibm_sw_repo_user" {
   type = "string"
   description = "IBM Software Repo Username"
+  default = "repouser"
 }
 
 
@@ -112,18 +142,21 @@ variable "OracleDBNode01-os_admin_user" {
 variable "OracleDBNode01_oracledb_SID" {
   type = "string"
   description = "Name to identify a specific instance of a running Oracle database"
+  default = "ORCL"
 }
 
 #Variable : OracleDBNode01_oracledb_port
 variable "OracleDBNode01_oracledb_port" {
   type = "string"
   description = "Listening port to be configured in Oracle"
+  default = "1521"
 }
 
 #Variable : OracleDBNode01_oracledb_release_patchset
 variable "OracleDBNode01_oracledb_release_patchset" {
   type = "string"
   description = "Identifier of patch set to apply to Oracle for improvement and bug fix"
+  default = "12.1.0.2.0"
 }
 
 #Variable : OracleDBNode01_oracledb_security_sys_pw
@@ -142,6 +175,7 @@ variable "OracleDBNode01_oracledb_security_system_pw" {
 variable "OracleDBNode01_oracledb_version" {
   type = "string"
   description = "Version of Oracle DB to be installed"
+  default = "v12c"
 }
 
 
@@ -170,14 +204,20 @@ variable "OracleDBNode01_domain" {
 
 variable "OracleDBNode01_number_of_vcpu" {
   description = "Number of virtual CPU for the virtual machine, which is required to be a positive Integer"
+  default = "2"
 }
 
 variable "OracleDBNode01_memory" {
   description = "Memory assigned to the virtual machine in megabytes. This value is required to be an increment of 1024"
+  default = "8192"
 }
 
 variable "OracleDBNode01_cluster" {
   description = "Target vSphere cluster to host the virtual machine"
+}
+
+variable "OracleDBNode01_resource_pool" {
+  description = "Target vSphere Resource Pool to host the virtual machine"
 }
 
 variable "OracleDBNode01_dns_suffixes" {
@@ -208,53 +248,59 @@ variable "OracleDBNode01_ipv4_prefix_length" {
 
 variable "OracleDBNode01_adapter_type" {
   description = "Network adapter type for vNIC Configuration"
+  default = "vmxnet3"
 }
 
 variable "OracleDBNode01_root_disk_datastore" {
   description = "Data store or storage cluster name for target virtual machine's disks"
 }
 
-variable "OracleDBNode01_root_disk_type" {
-  type = "string"
-  description = "Type of template disk volume"
-}
-
-variable "OracleDBNode01_root_disk_controller_type" {
-  type = "string"
-  description = "Type of template disk controller"
-}
-
 variable "OracleDBNode01_root_disk_keep_on_remove" {
   type = "string"
   description = "Delete template disk volume when the virtual machine is deleted"
+  default = "false"
+}
+
+variable "OracleDBNode01_root_disk_size" {
+  description = "Size of template disk volume. Should be equal to template's disk size"
+  default = "100"
 }
 
 # vsphere vm
 resource "vsphere_virtual_machine" "OracleDBNode01" {
   name = "${var.OracleDBNode01-name}"
-  domain = "${var.OracleDBNode01_domain}"
   folder = "${var.OracleDBNode01_folder}"
-  datacenter = "${var.OracleDBNode01_datacenter}"
-  vcpu = "${var.OracleDBNode01_number_of_vcpu}"
+  num_cpus = "${var.OracleDBNode01_number_of_vcpu}"
   memory = "${var.OracleDBNode01_memory}"
-  cluster = "${var.OracleDBNode01_cluster}"
-  dns_suffixes = "${var.OracleDBNode01_dns_suffixes}"
-  dns_servers = "${var.OracleDBNode01_dns_servers}"
+  resource_pool_id = "${data.vsphere_resource_pool.OracleDBNode01_resource_pool.id}"
+  datastore_id = "${data.vsphere_datastore.OracleDBNode01_datastore.id}"
+  guest_id = "${data.vsphere_virtual_machine.OracleDBNode01_template.guest_id}"
+  clone {
+    template_uuid = "${data.vsphere_virtual_machine.OracleDBNode01_template.id}"
+    customize {
+      linux_options {
+        domain = "${var.OracleDBNode01_domain}"
+        host_name = "${var.OracleDBNode01-name}"
+      }
+    network_interface {
+      ipv4_address = "${var.OracleDBNode01_ipv4_address}"
+      ipv4_netmask = "${var.OracleDBNode01_ipv4_prefix_length}"
+    }
+    ipv4_gateway = "${var.OracleDBNode01_ipv4_gateway}"
+    dns_suffix_list = "${var.OracleDBNode01_dns_suffixes}"
+    dns_server_list = "${var.OracleDBNode01_dns_servers}"
+    }
+  }
 
   network_interface {
-    label = "${var.OracleDBNode01_network_interface_label}"
-    ipv4_gateway = "${var.OracleDBNode01_ipv4_gateway}"
-    ipv4_address = "${var.OracleDBNode01_ipv4_address}"
-    ipv4_prefix_length = "${var.OracleDBNode01_ipv4_prefix_length}"
+    network_id = "${data.vsphere_network.OracleDBNode01_network.id}"
     adapter_type = "${var.OracleDBNode01_adapter_type}"
   }
 
   disk {
-    type = "${var.OracleDBNode01_root_disk_type}"
-    template = "${var.OracleDBNode01-image}"
-    datastore = "${var.OracleDBNode01_root_disk_datastore}"
+    label = "${var.OracleDBNode01-name}.disk0"
+    size = "${var.OracleDBNode01_root_disk_size}"
     keep_on_remove = "${var.OracleDBNode01_root_disk_keep_on_remove}"
-    controller_type = "${var.OracleDBNode01_root_disk_controller_type}"
   }
 
   # Specify the connection
@@ -268,11 +314,20 @@ resource "vsphere_virtual_machine" "OracleDBNode01" {
     destination = "OracleDBNode01_add_ssh_key.sh"
     content     = <<EOF
 # =================================================================
-# Licensed Materials - Property of IBM
-# 5737-E67
-# @ Copyright IBM Corporation 2016, 2017 All Rights Reserved
-# US Government Users Restricted Rights - Use, duplication or disclosure
-# restricted by GSA ADP Schedule Contract with IBM Corp.
+# Copyright 2017 IBM Corporation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+#	you may not use this file except in compliance with the License.
+#	You may obtain a copy of the License at
+#
+#	  http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+#	WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 # =================================================================
 #!/bin/bash
 
@@ -346,17 +401,17 @@ resource "camc_bootstrap" "OracleDBNode01_chef_bootstrap_comp" {
   data = <<EOT
 {
   "os_admin_user": "${var.OracleDBNode01-os_admin_user}",
-  "stack_id": "${random_id.stack_id.hex}",
+  "stack_id": "${var.ibm_stack_id}",
   "environment_name": "_default",
-  "host_ip": "${vsphere_virtual_machine.OracleDBNode01.network_interface.0.ipv4_address}",
+  "host_ip": "${vsphere_virtual_machine.OracleDBNode01.clone.0.customize.0.network_interface.0.ipv4_address}",
   "node_name": "${var.OracleDBNode01-name}",
   "node_attributes": {
     "ibm_internal": {
-      "stack_id": "${random_id.stack_id.hex}",
+      "stack_id": "${var.ibm_stack_id}",
       "stack_name": "${var.ibm_stack_name}",
       "vault": {
         "item": "secrets",
-        "name": "${random_id.stack_id.hex}"
+        "name": "${var.ibm_stack_id}"
       }
     }
   }
@@ -379,9 +434,9 @@ resource "camc_softwaredeploy" "OracleDBNode01_oracledb_create_database" {
   data = <<EOT
 {
   "os_admin_user": "${var.OracleDBNode01-os_admin_user}",
-  "stack_id": "${random_id.stack_id.hex}",
+  "stack_id": "${var.ibm_stack_id}",
   "environment_name": "_default",
-  "host_ip": "${vsphere_virtual_machine.OracleDBNode01.network_interface.0.ipv4_address}",
+  "host_ip": "${vsphere_virtual_machine.OracleDBNode01.clone.0.customize.0.network_interface.0.ipv4_address}",
   "node_name": "${var.OracleDBNode01-name}",
   "runlist": "role[oracledb_create_database]",
   "node_attributes": {
@@ -402,7 +457,7 @@ resource "camc_softwaredeploy" "OracleDBNode01_oracledb_create_database" {
         }
       }
     },
-    "vault": "${random_id.stack_id.hex}"
+    "vault": "${var.ibm_stack_id}"
   }
 }
 EOT
@@ -423,9 +478,9 @@ resource "camc_softwaredeploy" "OracleDBNode01_oracledb_v12c_install" {
   data = <<EOT
 {
   "os_admin_user": "${var.OracleDBNode01-os_admin_user}",
-  "stack_id": "${random_id.stack_id.hex}",
+  "stack_id": "${var.ibm_stack_id}",
   "environment_name": "_default",
-  "host_ip": "${vsphere_virtual_machine.OracleDBNode01.network_interface.0.ipv4_address}",
+  "host_ip": "${vsphere_virtual_machine.OracleDBNode01.clone.0.customize.0.network_interface.0.ipv4_address}",
   "node_name": "${var.OracleDBNode01-name}",
   "runlist": "role[oracledb_v12c_install]",
   "node_attributes": {
@@ -451,7 +506,7 @@ resource "camc_softwaredeploy" "OracleDBNode01_oracledb_v12c_install" {
         "sw_repo_password": "${var.ibm_sw_repo_password}"
       }
     },
-    "vault": "${random_id.stack_id.hex}"
+    "vault": "${var.ibm_stack_id}"
   }
 }
 EOT
@@ -472,14 +527,14 @@ resource "camc_vaultitem" "VaultItem" {
   "vault_content": {
     "item": "secrets",
     "values": {},
-    "vault": "${random_id.stack_id.hex}"
+    "vault": "${var.ibm_stack_id}"
   }
 }
 EOT
 }
 
 output "OracleDBNode01_ip" {
-  value = "VM IP Address : ${vsphere_virtual_machine.OracleDBNode01.network_interface.0.ipv4_address}"
+  value = "VM IP Address : ${vsphere_virtual_machine.OracleDBNode01.clone.0.customize.0.network_interface.0.ipv4_address}"
 }
 
 output "OracleDBNode01_name" {
@@ -491,6 +546,5 @@ output "OracleDBNode01_roles" {
 }
 
 output "stack_id" {
-  value = "${random_id.stack_id.hex}"
+  value = "${var.ibm_stack_id}"
 }
-

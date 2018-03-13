@@ -1,11 +1,11 @@
 {
-  "input_namespaces": [
+  "input_datatypes": [
     {
       "name": "advanced_content_runtime_chef",
       "label": "Advanced Content Runtime"
     }
   ],
-  "output_namespace": "content_template_output",
+  "output_datatype": "content_template_output",
   "input_groups": [
     {
       "name": "cloud",
@@ -35,6 +35,17 @@
     }
   ],
   "template_input_params": [
+    {
+      "name": "ibm_stack_id",
+      "type": "string",
+      "description": "A unique stack id.",
+      "hidden": true,
+      "label": "A unique stack id.",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "environment"
+    },
     {
       "name": "ibm_stack_name",
       "type": "string",
@@ -147,6 +158,7 @@
       "secured": true,
       "required": true,
       "immutable": true,
+      "immutable_after_create": true,
       "group_name": "environment",
       "default": "${advanced_content_runtime_chef.ibm_sw_repo_password}"
     },
@@ -159,6 +171,7 @@
       "secured": false,
       "required": true,
       "immutable": true,
+      "immutable_after_create": true,
       "group_name": "environment",
       "default": "${advanced_content_runtime_chef.ibm_sw_repo}"
     },
@@ -172,6 +185,7 @@
       "secured": false,
       "required": true,
       "immutable": true,
+      "immutable_after_create": true,
       "group_name": "environment"
     },
     {
@@ -284,6 +298,18 @@
       "default": "${advanced_content_runtime_chef.ibm_pm_public_ssh_key}"
     },
     {
+      "name": "OracleDBNode01_root_disk_size",
+      "type": "string",
+      "description": "Size of template disk volume. Should be equal to template's disk size",
+      "default": "100",
+      "hidden": false,
+      "label": "Root Disk Size - OracleDBNode01",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "virtualmachine"
+    },
+    {
       "name": "OracleDBNode01_oracledb_security_sys_pw",
       "type": "string",
       "description": "Change the password for SYS user",
@@ -292,7 +318,6 @@
       "secured": true,
       "required": true,
       "immutable": false,
-      "immutable_after_create": true,
       "group_name": "oracledbnode01"
     },
     {
@@ -304,7 +329,6 @@
       "secured": true,
       "required": true,
       "immutable": false,
-      "immutable_after_create": true,
       "group_name": "oracledbnode01"
     },
     {
@@ -319,79 +343,12 @@
       "group_name": "virtualmachine"
     },
     {
-      "name": "OracleDBNode01_root_disk_controller_type",
-      "type": "string",
-      "description": "Type of template disk controller",
-      "default": "scsi",
-      "hidden": false,
-      "label": "Template Disk Controller - OracleDBNode01",
-      "secured": false,
-      "options": [
-        {
-          "value": "scsi",
-          "label": "scsi",
-          "default": "true"
-        },
-        {
-          "value": "scsi-lsi-parallel",
-          "label": "scsi-lsi-parallel"
-        },
-        {
-          "value": "scsi-buslogic",
-          "label": "scsi-buslogic"
-        },
-        {
-          "value": "scsi-paravirtual",
-          "label": "scsi-paravirtual"
-        },
-        {
-          "value": "scsi-isi-sas",
-          "label": "scsi-isi-sas"
-        },
-        {
-          "value": "ide",
-          "label": "ide"
-        }
-      ],
-      "required": true,
-      "immutable": false,
-      "group_name": "virtualmachine"
-    },
-    {
       "name": "OracleDBNode01_root_disk_datastore",
       "type": "string",
       "description": "Data store or storage cluster name for target virtual machine's disks",
       "hidden": false,
       "label": "Template Disk Datastore - OracleDBNode01",
       "secured": false,
-      "required": true,
-      "immutable": false,
-      "group_name": "virtualmachine"
-    },
-    {
-      "name": "OracleDBNode01_root_disk_type",
-      "type": "string",
-      "description": "Type of template disk volume",
-      "default": "eager_zeroed",
-      "hidden": false,
-      "label": "Template Disk Type - OracleDBNode01",
-      "secured": false,
-      "options": [
-        {
-          "value": "eager_zeroed",
-          "label": "Thick Provision Eager Zeroed",
-          "default": "true"
-        },
-        {
-          "value": "lazy",
-          "label": "Thick Provision Lazy Zeroed"
-        },
-        {
-          "value": "thin",
-          "label": "Thin Provision",
-          "group_name": "virtualmachine"
-        }
-      ],
       "required": true,
       "immutable": false,
       "group_name": "virtualmachine"
@@ -471,7 +428,7 @@
       "hidden": false,
       "label": "vSphere Cluster - OracleDBNode01",
       "secured": false,
-      "required": true,
+      "required": false,
       "immutable": false,
       "group_name": "cloud"
     },
@@ -482,7 +439,7 @@
       "hidden": false,
       "label": "vSphere Datacenter - OracleDBNode01",
       "secured": false,
-      "required": true,
+      "required": false,
       "immutable": false,
       "group_name": "cloud"
     },
@@ -493,7 +450,7 @@
       "hidden": false,
       "label": "vSphere Folder Name - OracleDBNode01",
       "secured": false,
-      "required": true,
+      "required": false,
       "immutable": false,
       "group_name": "cloud"
     },
@@ -516,6 +473,17 @@
           "default": "e1000"
         }
       ],
+      "required": true,
+      "immutable": false,
+      "group_name": "virtualmachine"
+    },
+    {
+      "name": "OracleDBNode01_resource_pool",
+      "type": "string",
+      "description": "Target vSphere Resource Pool to host the virtual machine",
+      "hidden": false,
+      "label": "vSphere Resource Pool - OracleDBNode01",
+      "secured": false,
       "required": true,
       "immutable": false,
       "group_name": "virtualmachine"

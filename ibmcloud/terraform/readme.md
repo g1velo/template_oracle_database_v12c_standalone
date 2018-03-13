@@ -1,5 +1,5 @@
 # Template - Oracle Database 12c Enterprise Edition on a single virtual machine
-Template Version - 1.0
+Template Version - 2.0
 
 ## Description
 
@@ -10,10 +10,6 @@ This template deploys Oracle Enterprise Database V12c with a raw database on a L
 ### Clouds
 
  IBM<br>
-<br>
-### Template Version
-
-1.0<br>
 <br>
 ### Operating Systems Supported
 
@@ -43,7 +39,7 @@ Oracle Database 12c Enterprise Edition<br>
 
 ### License and Maintainer
 
-Copyright IBM Corp. 2016, 2017 
+Copyright IBM Corp. 2017, 2018 
 
 ### Target Cloud Type
 

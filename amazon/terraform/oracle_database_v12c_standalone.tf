@@ -1,9 +1,17 @@
 # =================================================================
-# Licensed Materials - Property of IBM
-# 5737-E67
-# @ Copyright IBM Corporation 2016, 2017 All Rights Reserved
-# US Government Users Restricted Rights - Use, duplication or disclosure
-# restricted by GSA ADP Schedule Contract with IBM Corp.
+# Copyright 2017 IBM Corporation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+#	you may not use this file except in compliance with the License.
+#	You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+#	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 # =================================================================
 
 # This is a terraform generated template generated from oracle_database_v12c_standalone
@@ -22,14 +30,21 @@ variable "ibm_pm_private_ssh_key" {
 variable "user_public_ssh_key" {
   type = "string"
   description = "User defined public SSH key used to connect to the virtual machine. The format must be in openSSH."
+  default = "None"
+}
+
+variable "ibm_stack_id" {
+  description = "A unique stack id."
 }
 
 variable "aws_ami_owner_id" {
   description = "AWS AMI Owner ID"
+  default = "309956199498"
 }
 
 variable "aws_region" {
   description = "AWS Region Name"
+  default = "us-east-1"
 }
 
 ##############################################################
@@ -45,10 +60,6 @@ provider "camc" {
 }
 
 provider "template" {
-  version = "~> 1.0"
-}
-
-provider "random" {
   version = "~> 1.0"
 }
 
@@ -72,10 +83,6 @@ data "aws_security_group" "aws_sg_camc_name_selected" {
 #Parameter : aws_sg_camc_name
 variable "aws_sg_camc_name" {
   description = "AWS Security Group Name"
-}
-
-resource "random_id" "stack_id" {
-  byte_length = "16"
 }
 
 ##############################################################
@@ -116,6 +123,7 @@ variable "ibm_sw_repo_password" {
 variable "ibm_sw_repo_user" {
   type = "string"
   description = "IBM Software Repo Username"
+  default = "repouser"
 }
 
 
@@ -133,6 +141,7 @@ data "aws_ami" "OracleDBNode01_ami" {
 variable "OracleDBNode01-image" {
   type = "string"
   description = "Operating system image id / template that should be used when creating the virtual image"
+  default = "RHEL-7.4_HVM_GA"
 }
 
 #Variable : OracleDBNode01-name
@@ -151,18 +160,21 @@ variable "OracleDBNode01-os_admin_user" {
 variable "OracleDBNode01_oracledb_SID" {
   type = "string"
   description = "Name to identify a specific instance of a running Oracle database"
+  default = "ORCL"
 }
 
 #Variable : OracleDBNode01_oracledb_port
 variable "OracleDBNode01_oracledb_port" {
   type = "string"
   description = "Listening port to be configured in Oracle"
+  default = "1521"
 }
 
 #Variable : OracleDBNode01_oracledb_release_patchset
 variable "OracleDBNode01_oracledb_release_patchset" {
   type = "string"
   description = "Identifier of patch set to apply to Oracle for improvement and bug fix"
+  default = "12.1.0.2.0"
 }
 
 #Variable : OracleDBNode01_oracledb_security_sys_pw
@@ -181,6 +193,7 @@ variable "OracleDBNode01_oracledb_security_system_pw" {
 variable "OracleDBNode01_oracledb_version" {
   type = "string"
   description = "Version of Oracle DB to be installed"
+  default = "v12c"
 }
 
 
@@ -189,17 +202,20 @@ variable "OracleDBNode01_oracledb_version" {
 variable "OracleDBNode01-flavor" {
   type = "string"
   description = "OracleDBNode01 Flavor"
+  default = "t2.large"
 }
 
 #Variable : OracleDBNode01-mgmt-network-public
 variable "OracleDBNode01-mgmt-network-public" {
   type = "string"
   description = "Expose and use public IP of virtual machine for internal communication"
+  default = "true"
 }
 
 ##### domain name #####
 variable "runtime_domain" {
   description = "domain name"
+  default = "cam.ibm.com"
 }
 
 
@@ -226,6 +242,7 @@ variable "OracleDBNode01_subnet_name" {
 variable "OracleDBNode01_associate_public_ip_address" {
   type = "string"
   description = "AWS assign a public IP to instance"
+  default = "true"
 }
 
 
@@ -233,6 +250,7 @@ variable "OracleDBNode01_associate_public_ip_address" {
 variable "OracleDBNode01_root_block_device_volume_type" {
   type = "string"
   description = "AWS Root Block Device Volume Type"
+  default = "gp2"
 }
 
 
@@ -240,6 +258,7 @@ variable "OracleDBNode01_root_block_device_volume_type" {
 variable "OracleDBNode01_root_block_device_volume_size" {
   type = "string"
   description = "AWS Root Block Device Volume Size"
+  default = "100"
 }
 
 
@@ -247,6 +266,7 @@ variable "OracleDBNode01_root_block_device_volume_size" {
 variable "OracleDBNode01_root_block_device_delete_on_termination" {
   type = "string"
   description = "AWS Root Block Device Delete on Termination"
+  default = "true"
 }
 
 resource "aws_instance" "OracleDBNode01" {
@@ -270,11 +290,20 @@ resource "aws_instance" "OracleDBNode01" {
     destination = "OracleDBNode01_add_ssh_key.sh"
     content     = <<EOF
 # =================================================================
-# Licensed Materials - Property of IBM
-# 5737-E67
-# @ Copyright IBM Corporation 2016, 2017 All Rights Reserved
-# US Government Users Restricted Rights - Use, duplication or disclosure
-# restricted by GSA ADP Schedule Contract with IBM Corp.
+# Copyright 2017 IBM Corporation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+#	you may not use this file except in compliance with the License.
+#	You may obtain a copy of the License at
+#
+#	  http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+#	WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 # =================================================================
 #!/bin/bash
 
@@ -353,17 +382,17 @@ resource "camc_bootstrap" "OracleDBNode01_chef_bootstrap_comp" {
   data = <<EOT
 {
   "os_admin_user": "${var.OracleDBNode01-os_admin_user}",
-  "stack_id": "${random_id.stack_id.hex}",
+  "stack_id": "${var.ibm_stack_id}",
   "environment_name": "_default",
   "host_ip": "${var.OracleDBNode01-mgmt-network-public == "false" ? aws_instance.OracleDBNode01.private_ip : aws_instance.OracleDBNode01.public_ip}",
   "node_name": "${var.OracleDBNode01-name}",
   "node_attributes": {
     "ibm_internal": {
-      "stack_id": "${random_id.stack_id.hex}",
+      "stack_id": "${var.ibm_stack_id}",
       "stack_name": "${var.ibm_stack_name}",
       "vault": {
         "item": "secrets",
-        "name": "${random_id.stack_id.hex}"
+        "name": "${var.ibm_stack_id}"
       }
     }
   }
@@ -386,7 +415,7 @@ resource "camc_softwaredeploy" "OracleDBNode01_oracledb_create_database" {
   data = <<EOT
 {
   "os_admin_user": "${var.OracleDBNode01-os_admin_user}",
-  "stack_id": "${random_id.stack_id.hex}",
+  "stack_id": "${var.ibm_stack_id}",
   "environment_name": "_default",
   "host_ip": "${var.OracleDBNode01-mgmt-network-public == "false" ? aws_instance.OracleDBNode01.private_ip : aws_instance.OracleDBNode01.public_ip}",
   "node_name": "${var.OracleDBNode01-name}",
@@ -409,7 +438,7 @@ resource "camc_softwaredeploy" "OracleDBNode01_oracledb_create_database" {
         }
       }
     },
-    "vault": "${random_id.stack_id.hex}"
+    "vault": "${var.ibm_stack_id}"
   }
 }
 EOT
@@ -430,7 +459,7 @@ resource "camc_softwaredeploy" "OracleDBNode01_oracledb_v12c_install" {
   data = <<EOT
 {
   "os_admin_user": "${var.OracleDBNode01-os_admin_user}",
-  "stack_id": "${random_id.stack_id.hex}",
+  "stack_id": "${var.ibm_stack_id}",
   "environment_name": "_default",
   "host_ip": "${var.OracleDBNode01-mgmt-network-public == "false" ? aws_instance.OracleDBNode01.private_ip : aws_instance.OracleDBNode01.public_ip}",
   "node_name": "${var.OracleDBNode01-name}",
@@ -458,7 +487,7 @@ resource "camc_softwaredeploy" "OracleDBNode01_oracledb_v12c_install" {
         "sw_repo_password": "${var.ibm_sw_repo_password}"
       }
     },
-    "vault": "${random_id.stack_id.hex}"
+    "vault": "${var.ibm_stack_id}"
   }
 }
 EOT
@@ -479,7 +508,7 @@ resource "camc_vaultitem" "VaultItem" {
   "vault_content": {
     "item": "secrets",
     "values": {},
-    "vault": "${random_id.stack_id.hex}"
+    "vault": "${var.ibm_stack_id}"
   }
 }
 EOT
@@ -498,6 +527,6 @@ output "OracleDBNode01_roles" {
 }
 
 output "stack_id" {
-  value = "${random_id.stack_id.hex}"
+  value = "${var.ibm_stack_id}"
 }
 
