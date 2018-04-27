@@ -83,7 +83,7 @@
     },
     {
       "name": "ibm_sw_repo_password",
-      "type": "string",
+      "type": "password",
       "description": "IBM Software Repo Password",
       "hidden": true,
       "label": "IBM Software Repo Password",
@@ -231,7 +231,7 @@
         },
         {
           "value": "mex01",
-          "label": "Querétaro, Mexico"
+          "label": "Quer\u00e9taro, Mexico"
         },
         {
           "value": "sjc01",
@@ -560,7 +560,7 @@
     },
     {
       "name": "OracleDBNode01_oracledb_security_sys_pw",
-      "type": "string",
+      "type": "password",
       "description": "Change the password for SYS user",
       "hidden": false,
       "label": "SYS Schema Password - OracleDBNode01",
@@ -571,7 +571,7 @@
     },
     {
       "name": "OracleDBNode01_oracledb_security_system_pw",
-      "type": "string",
+      "type": "password",
       "description": "Change the password for SYSTEM user",
       "hidden": false,
       "label": "SYSTEM Schema Password - OracleDBNode01",

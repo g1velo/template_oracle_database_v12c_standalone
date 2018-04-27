@@ -133,7 +133,7 @@
         },
         {
           "value": "sa-east-1",
-          "label": "South America (São Paulo)"
+          "label": "South America (S\u00e3o Paulo)"
         }
       ],
       "required": true,
@@ -288,7 +288,7 @@
     },
     {
       "name": "ibm_sw_repo_password",
-      "type": "string",
+      "type": "password",
       "description": "IBM Software Repo Password",
       "hidden": true,
       "label": "IBM Software Repo Password",
@@ -414,7 +414,7 @@
     },
     {
       "name": "OracleDBNode01_oracledb_security_sys_pw",
-      "type": "string",
+      "type": "password",
       "description": "Change the password for SYS user",
       "hidden": false,
       "label": "SYS Schema Password - OracleDBNode01",
@@ -425,7 +425,7 @@
     },
     {
       "name": "OracleDBNode01_oracledb_security_system_pw",
-      "type": "string",
+      "type": "password",
       "description": "Change the password for SYSTEM user",
       "hidden": false,
       "label": "SYSTEM Schema Password - OracleDBNode01",
