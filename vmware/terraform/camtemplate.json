@@ -23,7 +23,6 @@
       }
     },
     "metadata": {
-      "displayName": "Oracle Database 12c Enterprise Edition on a single virtual machine",
       "providerDisplayName": "VMware vSphere",
       "longDescription": "This template deploys Oracle Enterprise Database V12c with a raw database on a Linux virtual machine.",
       "bullets": [{
