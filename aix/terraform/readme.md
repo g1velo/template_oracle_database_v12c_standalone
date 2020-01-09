@@ -3,17 +3,17 @@ Template Version - 2.1
 
 ## Description
 
-This template deploys Oracle Enterprise Database V12c with a raw database on a Linux virtual machine.<br>
+This template deploys Oracle Enterprise Database V12c with a raw database on a AIX virtual machine.<br>
 
 ## Features
 
 ### Clouds
 
- IBM<br>
+ Openstack<br>
 <br>
 ### Operating Systems Supported
 
-Red Hat Enterprise Linux 7<br>
+AIX 7<br>
 <br>
 ### Topology
 
@@ -26,7 +26,7 @@ Oracle Database 12c Enterprise Edition<br>
 <br>
 ### Default Virtual Machine Settings
 
- Cores 2, RAM (GB) 8, SAN Disk (GB) 100<br>
+ Cores 1, RAM (GB) 16, SAN Disk (GB) 300<br>
 <br>
 ### Usage and Special Notes
 
@@ -43,7 +43,7 @@ Copyright IBM Corp. 2017, 2018
 
 ### Target Cloud Type
 
-IBM
+IBM POWERVC
 
 ### Software Deployed
 
@@ -67,8 +67,8 @@ IBM
 
 The following Operating Systems are supported for software defined in this template.
 
-- RHEL 6.x
-- RHEL 7.x
+- POWER AIX 7.x
+
 
 
 ### Nodes Description
@@ -122,7 +122,7 @@ The following is a summary of the minimal requirements available to the base ope
   </tr>
   <tr>
     <td>Min Memory</td>
-    <td>1024</td>
+    <td>8192</td>
   </tr>
 </table>
 
@@ -161,14 +161,9 @@ The following standard operating system libraries are required in the relevant O
 ### Oracle Enterprise Database
 <table>
   <tr>
-    <td>RHEL 6.x</td>
-    <td>x86_64</td>
-    <td>binutils, compat-libcap1.x86_64, compat-libstdc++-33, gcc, gcc-c++, glibc, glibc-devel, ksh, libgcc, libstdc++, libstdc++-devel, libaio, libaio-devel, libXext, libXtst, libX11, libXau, libxcb, libXi, make, sysstat, unzip, net-tools</td>
-  </tr>
-  <tr>
-    <td>RHEL 7.x</td>
-    <td>x86_64</td>
-    <td>binutils, compat-libcap1.x86_64, compat-libstdc++-33, gcc, gcc-c++, glibc, glibc-devel, ksh, libgcc, libstdc++, libstdc++-devel, libaio, libaio-devel, libXtst, libXi, make, sysstat, unzip, net-tools</td>
+    <td>AIX 7.x</td>
+    <td>Power9</td>
+    <td>unzip</td>
   </tr>
 </table>
 
@@ -248,6 +243,22 @@ The following is required prior to deploying the template on the target cloud. T
   <tr>
     <td>softlayer_endpoint_url</code></td>
     <td>The URL Associated with the Softlayer connection</td>
+  </tr>
+<tr>
+    <th>Terraform Provider Variable</th>
+    <th>Terraform Provider Variable Description.</th>
+  </tr>
+  <tr>
+    <td>powervc_username</td>
+    <td>IBM PowerVC username</td>
+  </tr>
+  <tr>
+    <td>powervc_password</code></td>
+    <td>IBM PowerVC user password</td>
+  </tr>
+  <tr>
+    <td>powervc_url</code></td>
+    <td>The URL Associated with the PowerVC connection</td>
   </tr>
 </table>
 
