@@ -1,4 +1,4 @@
-# Template - Oracle Database 12c Enterprise Edition on a single virtual machine
+# Template - Oracle Database 12c Enterprise Edition on a single AIX virtual machine
 Template Version - 2.1
 
 ## Description
